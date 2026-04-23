@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fstapi"
+version = "0.0.0"
+description = "ML project to be deployed in fastapi"
+authors = [{ name="mahrts" }]
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
