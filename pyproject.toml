@@ -7,7 +7,13 @@ name = "fstapi"
 version = "0.0.0"
 description = "ML project to be deployed in fastapi"
 authors = [{ name="mahrts" }]
-dependencies = []
+dependencies = [
+    "joblib==1.5.3",
+    "numpy==2.4.4",
+    "pandas==3.0.2",
+    "scikit-learn==1.8.0",
+    "ucimlrepo==0.0.7"
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
