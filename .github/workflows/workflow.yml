@@ -16,7 +16,7 @@ jobs:
   lint-with-flake8:
     runs-on: ubuntu-latest
     steps:
-      - name: Load code
+      - name: Load code 
         uses: actions/checkout@v4
 
       - name: Chose Python version
@@ -42,11 +42,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{env.python-version}}
-      - name: Install and upgrade pip, install pytest
+      - name: Install and upgrade pip, install pytest and run prerocessing.
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
+          pip install pytest 
           pip install -e .
+          python src/train_model.py
 
       - name: Run test
         run: |

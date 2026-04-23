@@ -23,7 +23,7 @@ def download_census():
     df["salary"] = df["salary"].apply(lambda x: x.replace(" ", "").replace(".", ""))
 
     logger.info("Target column is clean, the pd.dataframe is returned.")
-    return df
+    return df[df["occupation"] != "?"]
 
 if __name__=="__main__":
     df = download_census()

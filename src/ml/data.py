@@ -48,7 +48,7 @@ def process_data(df, categorical_features=None, label=None, training=True, encod
         X = df.drop([label], axis=1)
     else:
         y = np.array([])
-    
+ 
     if categorical_features is None:
         categorical_features = []
     X_categorical = X[categorical_features].values
