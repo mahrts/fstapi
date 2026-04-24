@@ -1,13 +1,34 @@
 from fastapi.testclient import TestClient
 from API.endpoints import app
 
-def test_root_endpoint():
-    with TestClient(app) as client:
+with TestClient(app) as client:
+    def test_root_endpoint():
+        """Testing root endpoint."""
         response = client.get("/")
         assert response.status_code == 200
         data = response.json()
 
-        assert "app_type" in data
-        assert "model_features" in data
-        assert "data_columns" in data
-        assert "target" in data
+        assert "about" in data
+
+    def test_scores_endpoint():
+        """Testing the get endpoint."""
+        response = client.get("/scores")
+
+        assert response.status_code == 200
+        assert response.json() is not None
+
+    def test_slice_success():
+        payload = {
+                   "data": {
+                            "native-country": "United-States",
+                            "race": "White",
+                            "education": "Masters",
+                            },
+                  }
+
+        response = client.post("/slice", json=payload)
+
+        assert response.status_code == 200
+
+        data = response.json()
+        assert "scores" in data

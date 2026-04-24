@@ -1,13 +1,22 @@
 """This file contains fixture for all pytest."""
 
+
+from pathlib import Path
+import pandas as pd
 import pytest
 from ingest.download_data import download_census
 from ml.data import process_data
 
 @pytest.fixture(scope="session")
 def census_df():
-    df = download_census()
-    return df
+    CENSUSDATA_PATH = Path(__file__).parent.parent / "data" / "census.csv"
+    try:
+        df = pd.read_csv(CENSUSDATA_PATH)
+        return df
+    except FileNotFoundError:
+        download_census()
+        df = pd.read_csv(CENSUSDATA_PATH)
+        return df
 
 @pytest.fixture(scope="session")
 def data_processor(census_df):
