@@ -1,11 +1,12 @@
-This repo contains code that predict salary range for census income data, which is
-publicly available at https://archive.ics.uci.edu/dataset/20/census+income.
+This repo contains code that predicts the salary range for census income data, publicly available at [CensusData](https://archive.ics.uci.edu/dataset/20/census+income).
 
-The code trains sklearn randomforestclassifier, and deploys with FastAPI.
+The code is deployed with FastAPI, and the resulting app is deployed on render, live demo 
+can be accessed here: https://salaryrangecensusprediction.onrender.com/docs.
+
 
 ## Usage:
-The app is deployed on render, and can be accessed at: [Live App](https://salaryrangecensusprediction.onrender.com/docs)
-The live app can be used to dispay  testing score, to compute testing score on data slice, to do prediction on new data.
+The easiest way to interact with the code is to use the live app at: [Live App](https://salaryrangecensusprediction.onrender.com/docs)
+This live app can be used to dispay  testing score, to compute testing score on data slice, to do prediction on new data.
 
 For the prediction part, one can for example paste the following input and get prediction back for 
 two new observed data:
