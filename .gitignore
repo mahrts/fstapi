@@ -208,3 +208,5 @@ __marimo__/
 
 # output files and folders:
 deployment/*.pkl
+deployment/*.csv
+data/*.csv
