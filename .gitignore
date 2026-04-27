@@ -207,7 +207,4 @@ marimo/_lsp/
 __marimo__/
 
 # output files and folders:
-deployment/*.csv
 deployment/*.pkl
-data/*.csv
-sanitycheck.py
