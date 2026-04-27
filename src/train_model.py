@@ -125,5 +125,46 @@ def fetch_test_score(model_path: str = None, encoder_path: str = None,
                 "f1_score": -1,
                 "fbeta": -1}
 
+def data_inference(features: dict, model_path: str = None, encoder_path: str = None,
+                     lb_path: str = None):
+    """Predict salary range for newly input data.
+    
+    Args:
+        D: dictionary with keys given by census data features
+           [age,workclass,fnlwgt,education,education-num,
+            marital-status,occupation,relationship,race,
+            sex,capital-gain,capital-loss,hours-per-week,
+            native-country]
+            and values are list of features.
+        model_path: path to trained model
+        encoder_path: path to trained encoder (used for preprocessing)
+        lb_path: path to label binarizer (used for preprocessing)
+    Returns:
+        D: Dictionary with predicted salary range as 
+           additional key.
+    """
+    df = pd.DataFrame(features)
+    cat_features = df.select_dtypes(include="object").columns.tolist()
+
+    if model_path is None:
+        model_path = DEPLOYMENT_PATH / "rndfmodel.pkl"
+    model = joblib.load(model_path)
+
+    if encoder_path is None:
+        encoder_path = DEPLOYMENT_PATH / "encoder.pkl"
+    encoder = joblib.load(encoder_path)
+
+    if lb_path is None:
+        lb_path = DEPLOYMENT_PATH / "label_binarizer.pkl"
+    lb = joblib.load(lb_path)
+
+    x, _, _, _ = process_data(df=df, categorical_features=cat_features,
+                                label=None, training=False,
+                                encoder=encoder, lb=lb)
+
+    preds = lb.inverse_transform(inference(model=model, x=x))
+
+    return preds
+
 if __name__=="__main__":
     training()

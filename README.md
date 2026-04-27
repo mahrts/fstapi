@@ -28,7 +28,7 @@ This will create a folder 'deployment', where necessary file deployment and test
 
 5- Finally, run the following and interact with full web interface 
 (usually at http://127.0.0.1:8000). All usefull info to interact with the deployed model
-can be found there.
+can be found
 
 ```bash
 uvicorn src.API.endpoints:app --reload

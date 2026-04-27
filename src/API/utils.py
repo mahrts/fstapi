@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Dict
 import pandas as pd
 from train_model import fetch_test_score
+from train_model import data_inference
 
 FULLCENSUSDATAPATH = Path(__file__).parent.parent.parent / "data" / "census.csv"
 FULLCENSUSDATA = pd.read_csv(FULLCENSUSDATAPATH)
@@ -14,6 +15,21 @@ TESTINGDATA = pd.read_csv(TESTINGDATAPATH)
 query_param_example = {"native-country": "United-States",
                     "race": "White", 
                     "education": "Masters"}
+
+INPUT_EXAMPLE = {'age': [20, 34],
+                 'workclass': ['Private', 'Private'], 
+                 'fnlwgt': [162282, 195860], 
+                 'education': ['Some-college', 'HS-grad'], 
+                 'education-num': [10, 9],
+                 'marital-status': ['Never-married', 'Married-civ-spouse'],
+                 'occupation': ['Machine-op-inspct', 'Craft-repair'],
+                 'relationship': ['Own-child', 'Husband'],
+                 'race': ['White', 'White'],
+                 'sex': ['Male', 'Male'],
+                 'capital-gain': [0, 0],
+                 'capital-loss': [0, 0],
+                 'hours-per-week': [60, 40],
+                 'native-country': ['United-States', 'United-States']}
 
 def fetch_post_query_params(census_df = FULLCENSUSDATA):
     """Return dictionary: keys are column name of dataframe,
@@ -92,5 +108,22 @@ def compute_slice_score(test_data: pd.DataFrame = TESTINGDATA,
 
     return score_detail
 
+def infer_input(d=None):
+    """Infere on input dictionary.
+    
+    Args:
+        d: dictionary with input columns as key,
+           and list of observed values
+    Returns:
+        the dictionary d with predicted_value as extra key.
+    """
+    if d is None:
+        d = INPUT_EXAMPLE
+
+    result = data_inference(d, model_path=None, encoder_path=None,
+                     lb_path=None)
+    return result.tolist()
+
 if __name__ == "__main__":
-    print(compute_slice_score())
+    #print(compute_slice_score())
+    print(infer_input())

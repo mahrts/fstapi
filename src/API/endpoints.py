@@ -8,6 +8,7 @@ from pydantic import BaseModel, field_validator
 import pandas as pd
 from .utils import fetch_post_query_params
 from .utils import compute_slice_score
+from .utils import infer_input
 sys.path.append("../")
 
 QUERYPARAMSRANGE = fetch_post_query_params()
@@ -17,6 +18,7 @@ EXAMPLEQUERYKEY = {"native-country": "United-States",
 
 class SliceQueryDict(BaseModel):
     """Type hints for to compute scores on data slice."""
+
     data: Dict[str, str] = EXAMPLEQUERYKEY
 
     @field_validator("data")
@@ -31,6 +33,7 @@ class SliceQueryDict(BaseModel):
             if value not in QUERYPARAMSRANGE[key]:
                 raise ValueError(f"Invalid value '{value}' for key '{key}'")
         return v
+
 
 app = FastAPI()
 
@@ -67,3 +70,26 @@ def slice_score(slice_method: SliceQueryDict):
     response = compute_slice_score(test_data=TESTINGDATA,
                                    query_param = query_dict)
     return response
+
+
+INPUT_EXAMPLE = {"age": [20, 34],
+                 "workclass": ["Private", "Private"], 
+                 "fnlwgt": [162282, 195860], 
+                 "education": ["Some-college", "HS-grad"], 
+                 "education-num": [10, 9],
+                 "marital-status": ["Never-married", "Married-civ-spouse"],
+                 "occupation": ["Machine-op-inspct", "Craft-repair"],
+                 "relationship": ["Own-child", "Husband"],
+                 "race": ["White", "White"],
+                 "sex": ["Male", "Male"],
+                 "capital-gain": [0, 0],
+                 "capital-loss": [0, 0],
+                 "hours-per-week": [60, 40],
+                 "native-country": ["United-States", "United-States"]}
+
+@app.post("/predict")
+def prediction(input_example: dict = None):
+    if input_example is None:
+        input_example = INPUT_EXAMPLE
+    result = infer_input(input_example)
+    return result
