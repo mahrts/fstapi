@@ -1,5 +1,7 @@
 ## Usage:
-This project can be runed locally as follow.
+The app is deployed on render, and can be accessed at: [Live App](https://salaryrangecensusprediction.onrender.com/docs)
+
+This project can also be runed locally as follow.
 
 1- Clone the repo.
 
